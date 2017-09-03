@@ -6,6 +6,8 @@
 //  Copyright (c) 2017 Juan Carlos Perez. All rights reserved.
 //
 
+#import "NSMutableAttributedString+RemoveAttributes.h"
+
 @implementation NSMutableAttributedString (RemoveAttributes)
 
 - (void)removeAttributes {
