@@ -19,22 +19,21 @@ pod 'LinkLabel'
 
 ## Install Manually
 1. Drag contents of `Source` folder into your Xcode project.
-2. Add `#import "UIKit/UIGestureRecognizerSubclass.h"` to Bridging Header file.
 
 ## Usage
 Create a label using `LinkLabel`, instead of UILabel.
 
 ```
-let myLabel = LinkLabel()
+LinkLabel *myLabel = [[LinkLabel alloc] init];
 ```
 
 Setup attributed text, including `NSLinkAttributeName`, as normal.
 
 ```
-let text = "This is some text, which includes a link."
-let fullRange = NSMakeRange(0, (text as NSString).length)
-let linkRange = (text as NSString).rangeOfString("includes a link")
-  
+NSString *text = @"This is some text, which includes a link.";
+NSRange *fullRange = NSMakeRange(0, text.length);
+NSRange *linkRange = [text rangeOfString:@"includes a link"];
+
 let attributedString = NSMutableAttributedString(string: text)
 attributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: fullRange)
 attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: fullRange)
@@ -66,13 +65,13 @@ label.interactionDelegate = self
 
 ```
 //MARK: LinkLabelInteractionDelegate
-	
+
 func linkLabelDidSelectLink(linkLabel linkLabel: LinkLabel, url: NSURL) {
   print("did select link: \(url)")
 }
 ```
 
-## Credit
+## Original Credit
 
 Created by [Andrew Hart](http://twitter.com/AndrewProjDent), for TwIM.
 
