@@ -11,20 +11,20 @@
 @implementation TouchGestureRecognizer
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  if(self.state == UIGestureRecognizerState.possible) {
-    self.state = UIGestureRecognizerState.began;
-  }
+    if(self.state == UIGestureRecognizerStatePossible) {
+        self.state = UIGestureRecognizerStateBegan;
+    }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  self.state = UIGestureRecognizerState.changed;
+    self.state = UIGestureRecognizerStateBegan;
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  self.state = UIGestureRecognizerState.ended;
+    self.state = UIGestureRecognizerStateEnded;
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  self.state = UIGestureRecognizerState.cancelled;
+    self.state = UIGestureRecognizerStateCancelled;
 }
 @end

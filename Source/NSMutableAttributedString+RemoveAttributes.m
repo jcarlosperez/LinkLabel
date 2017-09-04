@@ -11,16 +11,16 @@
 @implementation NSMutableAttributedString (RemoveAttributes)
 
 - (void)removeAttributes {
-  NSRange range = NSMakeRange(0, self.length);
-  [self removeAttributesInRange:range];
+    NSRange range = NSMakeRange(0, self.length);
+    [self removeAttributesInRange:range];
 }
 
 - (void)removeAttributesInRange:(NSRange)range {
-  [string enumerateAttributesInRange:range options:kNilOptions usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-    [attrs enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSAttributedStringKey  _Nonnull obj, BOOL * _Nonnull stop) {
-      [self removeAttribute:obj range:range];
+    [self enumerateAttributesInRange:range options:kNilOptions usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+        [attrs enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSAttributedStringKey  _Nonnull obj, BOOL * _Nonnull stop) {
+            [self removeAttribute:obj range:range];
+        }];
     }];
-  }];
 }
 
 @end
