@@ -11,12 +11,6 @@ LinkLabel makes this all easy. *Without any extra code*, links appear the same c
 
 If you want to add custom styling, that’s super simple, too. Same as you would specify attributes for your attributedText, any attributes you want to be different about your links, you add to LinkLabel’s `linkTextAttributes`, and `highlightedLinkTextAttributes`.
 
-## Install with CocoaPods
-
-```
-pod 'LinkLabel'
-```
-
 ## Install Manually
 1. Drag contents of `Source` folder into your Xcode project.
 
@@ -30,31 +24,14 @@ LinkLabel *myLabel = [[LinkLabel alloc] init];
 Setup attributed text, including `NSLinkAttributeName`, as normal.
 
 ```
-NSString *text = @"This is some text, which includes a link.";
-NSRange *fullRange = NSMakeRange(0, text.length);
-NSRange *linkRange = [text rangeOfString:@"includes a link"];
+NSString *text = @"This is some text, which incidentally includes a link you may find interesting";
+NSRange fullRange = NSMakeRange(0, text.length);
+NSRange linkRange = [text rangeOfString:@"includes a link"];
 
-let attributedString = NSMutableAttributedString(string: text)
-attributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFontOfSize(15), range: fullRange)
-attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blackColor(), range: fullRange)
-attributedString.addAttribute(NSLinkAttributeName, value: NSURL(string: "https://google.com")!, range: linkRange)
-```
-
-If you wish to customise the link appearance:
-
-```
-let linkTextAttributes = [
-  NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
-  NSForegroundColorAttributeName: UIColor.greenColor()
-]
-
-let highlightedLinkTextAttributes = [
-  NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
-  NSForegroundColorAttributeName: UIColor.redColor()
-]
-
-label.linkTextAttributes = linkTextAttributes
-label.highlightedLinkTextAttributes = highlightedLinkTextAttributes
+NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+[attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:fullRange];
+[attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:fullRange];
+[attributedString addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://google.com"] range:linkRange];
 ```
 
 To make it easier to respond to link taps, I’ve added in an interaction delegate. Adopt `LinkLabelInteractionDelegate`, and then implement the delegate function:
@@ -64,11 +41,12 @@ label.interactionDelegate = self
 ```
 
 ```
-//MARK: LinkLabelInteractionDelegate
+#pragma mark - LinkLabelInteractionDelegate
 
-func linkLabelDidSelectLink(linkLabel linkLabel: LinkLabel, url: NSURL) {
-  print("did select link: \(url)")
+- (void)didSelectLinkLabel:(LinkLabel *)linkLabel withURL:(NSURL *)url {
+    NSLog(@"didSelectLinkLabel withURL: %@", url.absoluteString);
 }
+
 ```
 
 ## Original Credit
