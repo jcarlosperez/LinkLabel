@@ -34,7 +34,22 @@ NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]
 [attributedString addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://google.com"] range:linkRange];
 ```
 
-To make it easier to respond to link taps, I’ve added in an interaction delegate. Adopt `LinkLabelInteractionDelegate`, and then implement the delegate function:
+If you wish to customise the link appearance:
+
+```
+NSDictionary *linkTextAttributes = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
+                                        NSForegroundColorAttributeName : [UIColor greenColor]
+                                        };
+
+NSDictionary *highlightedLinkTextAttributes = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
+                                                   NSForegroundColorAttributeName : [UIColor redColor]
+                                                   };
+
+label.linkTextAttributes = linkTextAttributes;
+label.highlightedLinkTextAttributes = highlightedLinkTextAttributes;
+```
+
+To respond to link taps, adopt `LinkLabelInteractionDelegate`, and then implement the delegate function:
 
 ```
 label.interactionDelegate = self
