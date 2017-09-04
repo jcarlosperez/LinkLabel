@@ -29,13 +29,11 @@
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:fullRange];
     [attributedString addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"https://google.com"] range:linkRange];
     
-    NSDictionary *linkTextAttributes = @{
-                                         NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
+    NSDictionary *linkTextAttributes = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
                                          NSForegroundColorAttributeName : [UIColor greenColor]
                                          };
     
-    NSDictionary *highlightedLinkTextAttributes = @{
-                                                    NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
+    NSDictionary *highlightedLinkTextAttributes = @{NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle),
                                                     NSForegroundColorAttributeName : [UIColor redColor]
                                                     };
     
@@ -45,8 +43,12 @@
     label.linkTextAttributes = linkTextAttributes;
     label.highlightedLinkTextAttributes = highlightedLinkTextAttributes;
     label.interactionDelegate = self;
-    label.frame = CGRectMake(20, 20, 280, 400);
+    label.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:label];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.8 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 }
 
 
