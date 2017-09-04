@@ -18,7 +18,7 @@
 - (void)removeAttributesInRange:(NSRange)range {
   [string enumerateAttributesInRange:range options:kNilOptions usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
     [attrs enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSAttributedStringKey  _Nonnull obj, BOOL * _Nonnull stop) {
-        [self removeAttribute:obj range:range];
+      [self removeAttribute:obj range:range];
     }];
   }];
 }
