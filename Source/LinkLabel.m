@@ -81,10 +81,32 @@
         tapGestureRecognizer.delegate = self;
         [self addGestureRecognizer:tapGestureRecognizer];
         
+        [self addObserver:self forKeyPath:@"highlightedLinkTextAttributes" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        [self addObserver:self forKeyPath:@"highlightedLinkAttribute" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        [self addObserver:self forKeyPath:@"linkTextAttributes" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        
         [self setupAttributes];
     }
     
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    
+    if ([keyPath isEqualToString:@"highlightedLinkTextAttributes"]) {
+        if(change[@"new"] != change[@"old"]) {
+            [self setupAttributes];
+        }
+    }
+    
+    if ([keyPath isEqualToString:@"highlightedLinkAttribute"]) {
+        [self setupAttributes];
+    }
+    
+    if ([keyPath isEqualToString:@"linkTextAttributes"]) {
+        [self setupAttributes];
+    }
+    
 }
 
 - (NSAttributedString *)attributedText {
@@ -124,8 +146,7 @@
             [attrs enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, Attribute *  _Nonnull attribute, BOOL * _Nonnull stop) {
                 if(key == NSLinkAttributeName) {
                     if([attribute isKindOfClass:[NSURL class]]) {
-                        NSURL *URL = attribute;
-                        LinkAttribute *linkAttribute = [[LinkAttribute alloc] initWithURL:URL range:range];
+                        LinkAttribute *linkAttribute = [[LinkAttribute alloc] initWithURL:(NSURL *)attribute range:range];
                         [linkAttributes addObject:linkAttribute];
                     }
                 } else {
@@ -144,21 +165,6 @@
                        
     }
                        
-    [self setupAttributes];
-}
-
-- (void)setHighlightedLinkTextAttributes:(NSDictionary *)highlightedLinkTextAttributes {
-    [self setupAttributes];
-}
-
-- (void)setHighlightedLinkAttribute:(LinkAttribute *)linkAttribute {
-    if(self.highlightedLinkAttribute != linkAttribute) {
-        self.highlightedLinkAttribute = linkAttribute;
-        [self setupAttributes];
-    }
-}
-
-- (void)setLinkTextAttributes:(NSDictionary *)linkTextAttributes {
     [self setupAttributes];
 }
 
@@ -190,12 +196,12 @@
 }
 
 - (void)respondtoLinkLabelTapped:(UITapGestureRecognizer *)gestureRecognizer {
+    
     if(self.linkAttributes.count == 0) {
         return;
     }
     
     int indexOfCharacterTouched = [gestureRecognizer indexOfCharacterTouchedInLabel:self];
-    
     if(indexOfCharacterTouched) {
         for(LinkAttribute *linkAttribute in self.linkAttributes) {
             if((indexOfCharacterTouched >= linkAttribute.range.location) && (indexOfCharacterTouched <= linkAttribute.range.location + linkAttribute.range.length)) {
